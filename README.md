@@ -74,6 +74,40 @@ def lambda_handler(event, context):
         'body': 'Instances started successfully'
     }
 
+
+# AWS Lambda Function: Unused Resource Cleanup
+
+This AWS Lambda function is designed to automatically clean up unused resources in your AWS environment. It scans for unattached EBS volumes and orphaned snapshots, and deletes them if they have been unused for more than 7 days.
+
+## Overview
+
+The Lambda function is triggered by an event and uses the Boto3 library to interact with the AWS resources. It performs the following tasks:
+
+- **Scan for Unattached EBS Volumes**: It describes the volumes and identifies those with a status of "available", indicating that they are unattached.
+- **Delete Unattached EBS Volumes**: It deletes unattached EBS volumes that have been unused for more than 7 days.
+- **Scan for Orphaned Snapshots**: It describes the snapshots and identifies those that do not belong to any EBS volume.
+- **Delete Orphaned Snapshots**: It deletes orphaned snapshots that have been unused for more than 7 days.
+
+## Prerequisites
+
+Before using this Lambda function, ensure you have:
+
+- An AWS account with appropriate permissions to create and execute Lambda functions, as well as manage EC2 resources.
+- Basic knowledge of AWS Lambda, Boto3 library, and EC2 resources.
+
+## Setup
+
+1. **Create Lambda Function**: Use the provided code to create a new Lambda function in your AWS account.
+2. **Configure Trigger**: Set up a CloudWatch Event rule to trigger the Lambda function at a desired schedule (e.g., daily).
+3. **IAM Permissions**: Ensure the Lambda function's execution role has the necessary permissions to describe and delete EC2 resources.
+
+## Notes
+
+- Adjust the age threshold (currently set to 7 days) in the Lambda function code to suit your requirements.
+- Exercise caution when deleting resources automatically. Make sure the Lambda function is thoroughly tested in a non-production environment before deploying to production.
+- Monitor the execution of the Lambda function and review the CloudWatch logs to ensure it behaves as expected.
+
+
 ## Contributing
 
 Contributions are welcome! If you find any bugs or have suggestions for improvement, please open an issue or submit a pull request.
