@@ -38,6 +38,42 @@ You may need to customize the following parameters in the Python script:
 - `adjust_auto_scaling_capacity()`: Update the Auto Scaling group name to match your environment.
 - Thresholds for increasing and decreasing desired capacity based on CPU utilization.
 
+
+# Scheduled Instance Start/Stop with AWS Lambda and CloudWatch Events
+
+Automating the start and stop of EC2 instances based on a schedule can help reduce costs by running instances only when needed. This guide outlines the steps to create Lambda functions triggered by CloudWatch Events to achieve scheduled instance start/stop.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- An AWS account with permissions to create Lambda functions, CloudWatch Events rules, and EC2 instances.
+- Basic knowledge of AWS Lambda, CloudWatch Events, and EC2.
+
+## Steps
+
+### 1. Create IAM Role for Lambda Function
+
+Create an IAM role that grants necessary permissions to your Lambda function to start and stop EC2 instances. This role should include permissions like `ec2:StartInstances` and `ec2:StopInstances`.
+
+### 2. Write Lambda Functions
+
+Write two Lambda functions: one to start EC2 instances and another to stop them. Below are sample Python code snippets for each function:
+
+#### Lambda Function to Start Instances:
+
+```python
+import boto3
+
+def lambda_handler(event, context):
+    ec2 = boto3.client('ec2')
+    instance_ids = ['instance_id_1', 'instance_id_2']  # Add your instance IDs here
+    ec2.start_instances(InstanceIds=instance_ids)
+    return {
+        'statusCode': 200,
+        'body': 'Instances started successfully'
+    }
+
 ## Contributing
 
 Contributions are welcome! If you find any bugs or have suggestions for improvement, please open an issue or submit a pull request.
